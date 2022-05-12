@@ -125,6 +125,8 @@ t = Thread.new do                     # Chạy khối này trong một chuỗi m
 end                     # Nội dung tệp có sẵn dưới dạng giá trị chuỗi
 # Biến ghi chú được thay thế thành chuỗi
 print "# {value}: # {key};"
+#
+
 
 
 
