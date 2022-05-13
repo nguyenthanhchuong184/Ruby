@@ -230,4 +230,28 @@ Sequences.fromtoby(1, 10, 2) {|x| print x }
  #########
  9.downto(1){|n| print n} 
  puts " blastoff!"   
-    
+ ##################3
+gem list # Liệt kê các viên ngọc đã cài đặt
+gem enviroment gem # Hiển thị thông tin cấu hình RubyGems
+update rails gem update # Cập nhật một viên ngọc đã đặt tên
+gem update - hệ thống # Cập nhật tất cả các đá quý đã cài đặt
+gem gỡ cài đặt rails # Cập nhật chính RubyGems
+# Xóa một viên ngọc đã cài đặt
+#####################
+if (lines.respond_to ?: join) # Nếu đối số trông giống như một mảng các dòng
+  s = lines.join
+else # Sau đó nối chúng thành một chuỗi duy nhất
+  s = lines.dup
+  end
+################
+# Xóa khoảng trắng (bao gồm cả dòng mới) khỏi dữ liệu # Dấu '!' trong gsub! chỉ ra rằng đây là một phương thức đột biến 
+# thay đổi chuỗi trực tiếp chứ không phải tạo một bản sao. s.gsub! (/ \ s /, "") # / \ s / là một Regexp khớp với bất kỳ khoảng trắng nào
+# Nâng cao một ngoại lệ nếu đầu vào có kích thước sai.
+# Lưu ý rằng chúng tôi sử dụng trừ khi thay vì if và sử dụng nó ở dạng bổ trợ. nâng lên Không hợp lệ, "Lưới có kích thước sai" trừ khi s.size == 81
+# Kiểm tra các ký tự không hợp lệ và lưu vị trí của ký tự đầu tiên.
+# Lưu ý rằng chúng tôi chỉ định và kiểm tra giá trị được chỉ định cùng một lúc.
+if i = s.index (/ [^ 123456789 \.] /) 
+# Bao gồm ký tự không hợp lệ trong thông báo lỗi.
+# Lưu ý biểu thức Ruby bên trong # {} trong chuỗi ký tự. nâng cao
+Kraise Invalid, "Ký tự không hợp lệ # {s [i, 1]} trong câu đố"
+#
