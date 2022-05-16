@@ -203,7 +203,128 @@ Hello World
 #3.5 Objects - Những hình dạng hài hước
 #3.5.1 Tham chiếu
 #Bản chất thực sự khi làm việc với object trong ruby là làm việc với Tham chiếu của đối tượng.
-
 #=> Khi gán giá trị(đối tượng) cho một biến => bản chất là gán tham chiếu của đối tượng vào biến đó. => Xử lý biến bản chất là xử lý đối tượng mà biến trỏ tới.
+s = "Ruby" # Khởi tạo đối tượng string "Ruby" gán cho s
+t = s # gán giá trị của s cho t => Bản chất là trỏ t tới đối tượng "Ruby"
+t[-1] = "" # Thay đổi đối tượng "Ruby"
+print s # => trở thành "Rub"
+t = "Java" # trỏ t sang một đối tượng mới
+print s,t # Prints "RubJava". => s trỏ tới "Rub", t trỏ tới "Java"
+#Bởi vì object references được truyền vào cho method, method có thể chỉnh sửa căn bản object. 
+#Sự thay đổi này được áp dụng khi method return.
+#3.5.2 Cuộc đời object
+#Jack (Jack là cách tôi trừu tượng hóa cách gọi một object trong mọi object trong ruby)
+#3.5.3 Danh tính
+#Jack có định danh, Định danh là duy nhất cho đến khi chết đi. đó là jack.object_id
+#3.5.4 Lớp và kiểu
+jack.class # Internship jack thuộc lớp thực tập sinh dành cho sinh viên mới ra trường
+jack.class.superclass # TrainningStaff - tiền đề  ban đầu đào tạo nhân viên chất lượng cao của cty - Sau này hoàn thiện và xuất hiện Intership jack đang làm việc
+jack.class.superclass.superclass # nil không còn lớp nào cao hơn
+jack.is_a? Internship # True Jack là một thực tập sinh
+jack.is_a? TrainningStaff # True Jack cũng là một nhân viên được đào tạo bài bản
+jack.instance_of? Internship # True Jack là sản phẩm của lò đào tạo Internship
+jack.instance_of? TrainningStaff # False nhưng jack không phải học viên của lò đào tạo TrainningStaff, lớp Internship đã kế thừa các mô hình đào tạo của TrainningStaff.
+jack.respond_to? :"reading_report_document_skills" # true nếu jack có kỹ năng đọc tài liệu.
+
+##
+if jack.is_a? Internship
+jack.can_reading_report_document base_document
+end
+base_document.class # => BaseDocument
+if john.is_a? BusinessStaff
+  john.can_reading_report_document analytic_document
+end
+analytic_document.class # => AnalyticDocument
+#3.5.5 So sánh bằng
+#Object bao gồm 2 phần id trên bộ nhớ và giá trị của bản thân nó, thành ra có đến 5 kiểu so sánh bằng giữa 2 đối tượng, 5 case này:
+a.object_id == b.object_id # làm việc như a.equal?(b)
+1 == 1.0 # true: so sánh giá trị (không so sánh địa chỉ tham chiếu)
+1.eql?(1.0) # false: nhưng so sánh thêm cả kiểu dữ liệu (class) Fixnum vs Float
+# == ít nghiêm ngặt hơn .eql?, chỉ so sánh giá trị (tính cả các kiểu dữ liệu có thể được chuyển đổi, vd: Fixnum có thể ép kiểu sang Float )
+1 == 1.0 # true
+# === gọi là các các trường hợp khác tương tự == equality
+(1..10) === 5 # true
+/\d+/ === "123" # true
+String === "s" # true
+#3.5.6 Các phép toán so sánh toán hạng
+#3.5.7 Chuyển đổi thành đối tượng khác
+#Các class String , Integer , Float , Array định nghĩa sẵn các method chuyển đổi cực kỳ eazy. to_s , to_i , to_f , to_a
+#Các kiểu đối tượng khi chuyển đổi dĩ nhiên cần có kiểu "phong cách" tương đồng mới được. 
+#VD: [[:a, 1], ["b", 2]] có thể chuyển đổi phong cách với {:a=>1, "b"=>2} và ngược lại.
+#3.5.8 Sao chép
+#jack.dup sẽ tạo ra 1 thằng jack khác, 2 thằng jack giống hệt mọi thứ trừ định danh object_id 
+#(cả định danh của những thuộc tính string được copyjack giống hệt mọi thứ trừ định danh object_id 
+#(cả định danh của những thuộc tính string được copy bên trong đối tượng cũng sẽ thay đổi nữa - do string trong ruby là mutable).
+# Kiểu a = "abc" thì b = a.dup tương đương với b = "abc", chứ không phải b = a.
+#3.5.9 Văn bản hóa đối tượng
+#Lưu trạng thái của đối tượng vào file I/O)
+[1] pry(main)> a
+#=> #<Abc:0x0000000009c13a50 @ahaha=11>
+[2] pry(main)> Marshal.dump a
+#=> "\x04\bo:\bAbc\x06:\v@ahahai\x10"
+[3] pry(main)> Marshal.load(Marshal.dump(a))
+#=> #<Abc:0x0000000009e33510 @ahaha=11>
+[4] pry(main)> Marshal.load("\x04\bo:\bAbc\x06:\v@ahahai\x10")
+#=> #<Abc:0x0000000009e85d10 @ahaha=11>
+#3.5.10 Đóng băng đối tượng
+# .freeze sẽ đóng băng tất cả thuộc tính của đối tượng => đơn giản là đối tượng không thể bị thay đổi nữa.
+#3.5.11 Đối tượng nhiễm độc
+s = "untrusted"
+s.taint
+s.tainted?
+s.upcase.tainted?
+s[3,4].tainted?
+#khi được đánh dấu là taint 
+#=> object này có nghĩa là nhiễm độc, có thể gây nguy hiểm, mọi object phát sinh từ object này cũng sẽ bị đánh dấu.
+#Chương 4. Biểu thức và toán tử
+#4.1 Các ký tự, các từ khóa
+#Về việc sử dụng biến, trong bất kỳ hoản cảnh nào ta có thể thấy luôn có sẵn những biến tham chiếu chuyên biệt như: 
+nil, true, false, self, __FILE__, __LINE__, __ENCODING__.
+#4.2 Biến
+#Các biến bắt đầu bằng $ là các biến toàn cục, xuất hiện trong suốt một chương trình Ruby
+#Các biến bắt đầu bằng @ và @@ là các "instance variables và class"
+#Và có tên bắt đầu bằng dấu gạch dưới hoặc chữ thường là các biến cục bộ, chỉ được định nghĩa trong phương thức hoặc block hiện tại.
+#gọi biến toàn cục: trả về nil,
+#gọi Class variables: raise NameError 
+#gọi Instance variable: trả về nil
+a = 0.0 if false # hành động gán này chả bao h xảy ra
+print doc_co_cau_bai # ấy vậy mà chỗ  này vẫn in ra `nil` =))
+print dong_phuong_bat_bai # NameError: trong khi ở đây bắn lỗi như đúng rồi
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
